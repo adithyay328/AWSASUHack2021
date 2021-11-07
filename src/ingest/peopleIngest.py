@@ -11,17 +11,18 @@ with open("example.csv", newline='') as csvFile:
     for row in cReader:
         print(','.join(row))
 
-        infected = row[0] == "true"
-        uid = row[1]
-        daysInfected = int(row[2])
-        age = int(row[3])
-        medicalCond = int(row[4])
+        if not row[0] == "INFECTED":
+            infected = row[0] == "true"
+            uid = row[1]
+            daysInfected = int(row[2])
+            age = int(row[3])
+            medicalCond = int(row[4])
 
-        cur.execute("INSERT INTO people(uid, infected, dayssinceinfection, age, medicalconditions) VALUES (%s, %s, %s, %s, %s)", (
-            uid, infected, daysInfected, age, medicalCond
-        ))
+            cur.execute("INSERT INTO people(uid, infected, dayssinceinfection, age, medicalconditions) VALUES (%s, %s, %s, %s, %s)", (
+                uid, infected, daysInfected, age, medicalCond
+            ))
 
-        conn.commit()
+            conn.commit()
 
 cur.close()
 conn.close()
