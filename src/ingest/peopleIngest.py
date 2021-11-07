@@ -6,7 +6,7 @@ import csv
 conn = psycopg2.connect("dbname=covardb user=covardbapps")
 cur = conn.cursor()
 
-with open("example.csv", newline='') as csvFile:
+with open("people.csv", newline='') as csvFile:
     cReader = csv.reader(csvFile, delimiter=',')
     for row in cReader:
         print(','.join(row))

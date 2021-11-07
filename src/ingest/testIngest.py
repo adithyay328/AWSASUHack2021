@@ -1,26 +1,24 @@
-import datetime
 from os import curdir
 import psycopg2
 
 import csv
+import datetime
 
 conn = psycopg2.connect("dbname=covardb user=covardbapps")
 cur = conn.cursor()
 
-with open("interactions.csv", newline='') as csvFile:
+with open("tests.csv", newline='') as csvFile:
     cReader = csv.reader(csvFile, delimiter=',')
     for row in cReader:
         print(','.join(row))
 
         if not row[0] == "DATE":
             date = datetime.date.fromisoformat(row[0])
-            uidOne = row[1]
-            uidTwo = row[2]
-            duration = int(row[3])
-            proximity = int(row[4])
+            personUID = row[1]
+            infected = row[2] == "true"
 
-            cur.execute("INSERT INTO interactions(idone, idtwo, dateval, duration, proximity) VALUES (%s, %s, %s, %s, %s)", (
-                uidOne, uidTwo, date, duration, proximity
+            cur.execute("INSERT INTO tests(dateval, personaluid, infected) VALUES (%s, %s, %s)", (
+                date, personUID, infected
             ))
 
             conn.commit()
